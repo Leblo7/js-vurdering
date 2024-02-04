@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+    <head>
+
+        <!--HTML setup-->
+        <title>Oppgave 2</title>
+		<meta charset="utf-8" />
+		
+
+    </head>
+    <body>
+        
+
+        <h2>Fartskontroll</h2>
+
+        <!--input & knapper-->
+        Oppgi fart: <input type="number" id="fart">
+        <button type="button" onclick="registrer()">Registrer</button>
+        <button type="button" onclick="statistikk()">Statistikk</button>
+        <button type="button" onclick="nullstill()">Nullstill</button>
+
+        <!--utskrift-->
+        <br><br>
+        Melding: <input type="text" id="melding" readonly>
+        <br><br>
+        Avvik:   <input type="text" id="avvik" readonly>
+        <br><br><br><br>
+        <p id="stat_utskrift"></p>
+
+
+        <script>
+
+            // JS setup
+            "use strict";
+            console.clear();
+
+            // variabler
+            let fart = 0;
+            let ant_fart = [];
+            let fartbrudd = 0;
+            let sum = 0;
+            let samlet_bot = 0;
+
+            // funksjon for å registrere fart og gi tilbakemelding
+            function registrer() {
+                
+                // lagrer fart i array og legger til i sum
+                fart = parseInt(document.getElementById("fart").value);
+                ant_fart.push(fart);
+                sum += fart;
+
+                // beregner om fart er lovlig og evt bot (oppg. a)
+                if (fart >= 0 && fart <= 80)  {
+			        document.getElementById("melding").value = "Lovlig fart";
+
+			    } 
+                else if (fart > 80 && fart <= 90) {
+                    document.getElementById("melding").value = "1500 kr i bot";
+                    fartbrudd++;
+                    samlet_bot += 1500;
+			    }
+                else if (fart > 90){
+                    document.getElementById("melding").value = "3000 kr i bot"; 
+                    fartbrudd++;
+                    samlet_bot += 3000;
+			    }
+                else {
+                    document.getElementById("melding").value = "bro kjører i revers";
+                }
+
+                // skriver ut størrelsen på avviket (oppg. b & c)
+                document.getElementById("avvik").value = Math.abs(fart - 80) + " km/time";
+            }
+
+            // funksjon som skriver ut statistikk (oppg. d, e, f og g)
+            function statistikk() {
+                
+                document.getElementById("stat_utskrift").innerHTML =
+                "Antall biler målt: " + ant_fart.length +
+                "<br>Gjennomsnittsfart: " + (sum / ant_fart.length) +
+                "<br>Antall brudd på fartsgrensen: " + fartbrudd +
+                "<br>Samlet bot: " + samlet_bot;
+            }
+
+            // funksjon som nullstiller statistikk 
+            function nullstill() {
+            
+                fart = 0;
+                ant_fart = [];
+                fartbrudd = 0;
+                sum = 0;
+                samlet_bot = 0;
+
+                document.getElementById("stat_utskrift").innerHTML = "Statistikk nullstillt!"
+            }
+ 
+
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
